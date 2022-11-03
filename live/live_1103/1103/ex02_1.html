@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="test1">
+      <div v-if="isApp">
+        <h3 ref="target">{{a1}}</h3>
+        <button v-on:click="setValue">값 변경</button>
+        <button v-on:click="setDestroy">소멸</button>
+        <button v-on:click="setMount">마운트</button>
+      </div>
+    </div>
+
+    <script>
+      let vm = new Vue({
+        el: "#test1",
+        data: {
+          a1: 100,
+          isApp: false,
+        },
+        //-----------------------------------------------------------------
+        // Vue 객체가 관리할 요소들이 만들어지기 전에 호출되는 함수
+        beforeCreate: function () {
+          console.log("Vue 객체가 관리할 요소들이 만들어지기 전입니다-beforeCreate");
+          console.log("a1 : " + this.a1);
+        },
+        created: function () {
+          console.log("Vue 객체가 관리할 요소들이 만들어진 후입니다-created");
+          console.log("a1 : " + this.a1);
+        },
+        // Vue 객체가 관리할 HTML 태그 객체가 할당 되기 전
+        beforeMount: function () {
+          console.log("Vue 객체가 관리할 태그가 할당 되기 전입니다-beforeMount");
+        },
+        // Vue 객체가 관리할 HTML 태그 객체가 할당 된 후
+        mounted: function () {
+          this.isApp = true;
+          console.log(this.$refs["target"]); //갱신됨
+          console.log("Vue 객체가 관리할 태그가 할당 된 이후 입니다-mounted");
+        },
+        beforeUpdate: function () {
+          console.log("관리하고 있는 HTML요소 내부가 변경되기 전입니다-beforeUpdate");
+        },
+        updated: function () {
+          console.log("관리하고 있는 HTML요소 내부가 변경된 후 입니다-updated");
+        },
+        beforeDestroy: function () {
+          console.log("Vue 객체의 기능이 소멸되기 전입니다-beforeDestroy");
+        },
+        destroyed: function () {
+          console.log("Vue 객체의 기능이 소멸된 후 입니다-destroyed");
+        },
+        //---------------------------------------------------------------
+        methods: {
+          setValue: function () {
+            this.a1 += 200;
+          },
+          setDestroy: function () {
+            this.$destroy();
+          },
+          setMount: function () {
+            this.$mount("#test1");
+          },
+        },
+      });
+      // Vue 객체에 마운트 된 태그를 관리하는 요소를 소멸시킨다.
+      //vm.$destroy();
+      // Vue 객체에 태그를 할당한다.
+      //vm.$mount('#test1');
+    </script>
+  </body>
+</html>

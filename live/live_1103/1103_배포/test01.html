@@ -1,0 +1,32 @@
+<!-- test01.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- 뷰.js 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div id="view1">{{ msg }}</div>
+      <!-- {{ 데이터 }} : 보간법 -->
+      <div id="view2">{{ msg }}</div>
+      <div id="view3">{{ count }} <button @click="count++">Click</button></div>
+      <!-- v-on:click >> @click -->
+    </div>
+    <div id="view4">{{ msg }}</div>
+    <script>
+      let app = new Vue({
+        el: "#app",
+        data: {
+          msg: "hello ssafy!",
+          count: 0,
+        },
+      });
+      console.log(app);
+    </script>
+  </body>
+</html>

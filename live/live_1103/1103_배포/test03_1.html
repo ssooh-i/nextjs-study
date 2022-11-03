@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <span>클릭 카운트 : {{count}}</span>
+      <button @click="count++">클릭</button>
+    </div>
+
+    <script type="text/javascript">
+      new Vue({
+        el: "#app",
+        data: {
+          count: 0,
+        },
+        beforeCreate: function () {
+          console.log("beforeCreate count: " + this.count); //정의되지 않음으로 뜸, 사용안됨
+        },
+        created: function () {
+          console.log("created count: " + this.count); //카운트 사용할 수 있다
+          console.log("created 연결된 DOM 엘리먼트: ", this.$el); //정의되지 않아서 사용불가
+        },
+        mounted: function () {
+          console.log("mounted count: " + this.count); //카운트 사용할 수 있다
+          console.log("mount 연결된 DOM 엘리먼트: ", this.$el); //연결이 모두 다 되어서, Dom el도 사용할 수 있 다
+        },
+        updated: function () {
+          //에로우 함수쓰면 this 안됨, window 객체를 불러옴
+          //여기서 새로운 에로우 함수를 쓰는 것은 가능
+          console.log("updated 호출됨"); //수정된 사항이 있을 때만 실행
+          console.log("update count: " + this.count);
+        },
+      });
+    </script>
+  </body>
+</html>

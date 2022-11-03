@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <input v-model="msg" type="text" />
+      <div>{{msg}}</div>
+    </div>
+    <script>
+      let app = new Vue({
+        el: "#app",
+        data: {
+          msg: "Hello Vue~!",
+        },
+      });
+    </script>
+    <!-- 기존방식 -->
+    <!-- <div id="app">
+      <input id = "txt" type="text" />
+      <div>{{msg}}</div>
+    </div>
+    <script>
+      let app = new Vue({
+        el: "#app",
+        data: {
+          msg: "Hello Vue~!",
+        },
+      });
+
+      let txt = document.querySelector("txt");
+      txt.addEventListener("keyup", function(){
+        document.querySelector("#view").textContent(txt);
+      })
+    </script> -->
+  </body>
+</html>
