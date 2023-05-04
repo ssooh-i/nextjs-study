@@ -19,6 +19,7 @@ function connect(callback: () => void) {
       //@ts-ignore
       sessionId = socket._transport.url.split("/")[5];
       localStorage.setItem("userId", sessionId);
+      onConnected(sessionId);
       console.log("socket connection success!");
       console.log("userId: ", sessionId);
     },
@@ -38,28 +39,31 @@ function onError(frame: any) {
   console.log(frame.headers);
 }
 
-/**
- * 채팅 메시지 보내기
- *
- * @param content 사용자가 보내는 메시지
- */
-// function sending(topic: any, content: any) {
-//   stompClient?.send(
-//     // TOPIC
-//     topic,
-//     {},
-//     // CONTENT
-//     JSON.stringify(content)
-//   );
-// }
+function onConnected(sessionId: string) {
+  console.log("success");
 
-//예시
-// sending(`/chat`, {
-//   type: "CHAT",
-//   userId: sessionId,
-//   // TODO: roomCode 변수로 바꾸기
-//   roomCode: "abcde",
-//   content: "dkfjasldfjsd",
-// });
+  //chatting 구독
+  stompClient?.subscribe("/topic/chat/abcde", (body: any) => {
+    const data = JSON.parse(body.body);
+    console.log(data);
+  });
 
-export { connect, onError, stompClient };
+  //서버에 입장한다는 메시지 전송
+  stompClient?.send(
+    `/room/enter`,
+    {},
+    JSON.stringify({
+      userId: sessionId,
+      roomCode: "abcde",
+    })
+  );
+}
+
+const chatSubscribe = (stompClient: CompatClient) => {
+  stompClient?.subscribe("/topic/chat/abcde", (body: any) => {
+    const data = JSON.parse(body.body);
+    console.log(data);
+  });
+};
+
+export { connect, onError, stompClient, chatSubscribe };

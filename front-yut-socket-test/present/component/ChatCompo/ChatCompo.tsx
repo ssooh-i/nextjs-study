@@ -16,27 +16,31 @@ const ChatCompo = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<string[]>([]);
 
-  const chatLog = useCallback((chats: Array<any>) => {
-    const log: Array<LogCompoProps> = chats.map((chat, index) => {
-      return {
-        userId: chat.userId,
-        message: chat.message,
-      };
-    });
-    setMessages([...log]);
-  }, []);
+  // const chatLog = useCallback((chats: Array<any>) => {
+  //   const log: Array<LogCompoProps> = chats.map((chat, index) => {
+  //     return {
+  //       userId: chat.userId,
+  //       message: chat.message,
+  //     };
+  //   });
+  //   setMessages([...log]);
+  // }, []);
 
   const subscribeTopics = useCallback(() => {
     console.log("chatting~~");
     if (stompClient) {
-      socketUtil.subscribeEvent(readyTopic.chatSubscribe + "/abcde", chatLog);
+      socketUtil.subscribeEvent(
+        readyTopic.chatSubscribe + "/abcde",
+        socketUtil.obj
+      );
+      // socketUtil.subscribeEvent(readyTopic.chatSubscribe + "/abcde", chatLog);
       // socketUtil.obj;
       console.log("chatting:", socketUtil.obj);
     }
   }, []);
 
   useEffect(() => {
-    connect(subscribeTopics);
+    // connect(subscribeTopics);
     // subscribeTopics();
     let userId = localStorage.getItem("userId");
     //유저 전역 관리
@@ -48,7 +52,7 @@ const ChatCompo = () => {
     e.preventDefault();
     if (message) {
       socketUtil.sendEvent(
-        `/chat`,
+        `/chat/abcde`,
         {},
         {
           type: "CHAT",
