@@ -48,7 +48,6 @@ const Ready = () => {
   useEffect(() => {
     connect(subscribeTopics);
   }, []);
-
   return (
     <>
       <GameProfile

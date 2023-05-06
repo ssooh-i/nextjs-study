@@ -2,7 +2,7 @@ import { stompClient } from "@/actions/socket-api/socketInstance";
 
 let obj: any = {}; // obj 객체를 subscribeEvent 함수 외부에 정의합니다.
 
-const stringify = (message: string): any => {
+const stringify = (message: any): any => {
   return JSON.stringify(message);
 };
 
@@ -19,11 +19,11 @@ const subscribeEvent = (eventName: string, callback?: any) => {
 
 const sendEvent = (
   eventName: string,
-  contents: any,
   header: any,
+  contents: any,
   callback?: any
 ) => {
-  stompClient?.send(eventName, header, contents);
+  stompClient?.send(eventName, header, stringify(contents));
   if (callback) callback();
 };
 

@@ -40,7 +40,7 @@ const ChatCompo = () => {
   }, []);
 
   useEffect(() => {
-    // connect(subscribeTopics);
+    connect(subscribeTopics);
     // subscribeTopics();
     let userId = localStorage.getItem("userId");
     //유저 전역 관리
@@ -51,8 +51,19 @@ const ChatCompo = () => {
   const sendMessage = (e: any) => {
     e.preventDefault();
     if (message) {
+      // stompClient?.send(
+      //   `/chat`,
+      //   {},
+      //   JSON.stringify({
+      //     type: "CHAT",
+      //     userId: userInfo.userId,
+      //     roomCode: "abcde",
+      //     content: message,
+      //   })
+      // );
+
       socketUtil.sendEvent(
-        `/chat/abcde`,
+        `/chat`,
         {},
         {
           type: "CHAT",

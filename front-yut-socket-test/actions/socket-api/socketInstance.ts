@@ -1,5 +1,6 @@
 import SockJS from "sockjs-client";
 import { CompatClient, Stomp } from "@stomp/stompjs";
+// import * as socketUtil from "@/utils/socketUtils";
 
 // stomp 연결 객체
 let stompClient: CompatClient | null = null;
@@ -20,6 +21,7 @@ function connect(callback: () => void) {
       sessionId = socket._transport.url.split("/")[5];
       localStorage.setItem("userId", sessionId);
       onConnected(sessionId);
+      // chatSubscribe(sessionId);
       console.log("socket connection success!");
       console.log("userId: ", sessionId);
     },
@@ -41,12 +43,13 @@ function onError(frame: any) {
 
 function onConnected(sessionId: string) {
   console.log("success");
+  chatSubscribe(sessionId);
 
   //chatting 구독
-  stompClient?.subscribe("/topic/chat/abcde", (body: any) => {
-    const data = JSON.parse(body.body);
-    console.log(data);
-  });
+  // stompClient?.subscribe("/topic/chat/abcde", (body: any) => {
+  //   const data = JSON.parse(body.body);
+  //   console.log(data);
+  // });
 
   //서버에 입장한다는 메시지 전송
   stompClient?.send(
@@ -59,11 +62,22 @@ function onConnected(sessionId: string) {
   );
 }
 
-const chatSubscribe = (stompClient: CompatClient) => {
+const chatSubscribe = (sessionId: string) => {
   stompClient?.subscribe("/topic/chat/abcde", (body: any) => {
     const data = JSON.parse(body.body);
-    console.log(data);
+    console.log("topic/chat/abcde의 데이터:", data);
   });
+  // socketUtil.sendEvent(
+  //   `/chat/abcde`,
+  //   {},
+  //   {
+  //     type: "CHAT",
+  //     userId: sessionId,
+  //     // TODO: roomCode 변수로 바꾸기
+  //     roomCode: "abcde",
+  //     content: "message보내요~",
+  //   }
+  // );
 };
 
 export { connect, onError, stompClient, chatSubscribe };
