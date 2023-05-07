@@ -8,7 +8,7 @@ let stompClient: CompatClient | null = null;
 let sessionId: string = "";
 
 //STOMP over SockJS 연결
-function connect(callback: () => void) {
+async function connect(callback: () => void) {
   // let socket = new SockJS("https://k8d109.p.ssafy.io:8888/yut");
   let socket = new SockJS("https://k8d109.p.ssafy.io/yut");
   //stomp.js를 사용하여 SockJS와 웹 소켓 통신을 수행
